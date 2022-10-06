@@ -1,0 +1,46 @@
+/*
+Victor Lau, June 2021
+This is a recreation of the google dino game, with the dino being the circle and the cactuses being the spikes.
+The objective is to survive as long as you can by dodging the spikes. As you progress, the speed of the spikes and your jump height will increase.
+*/
+
+//Constants
+var player;
+var scoreDisplay;
+var buffer = 15;
+var playerSize = 25;
+var ground = getHeight() - playerSize;
+var inAir = false;
+var y = -15;
+
+//Sets up the game
+function start() {
+    player = new Circle(playerSize);
+    player.setPosition(50, ground);
+    player.setColor(Color.blue);
+    add(player);
+    
+    keyDownMethod(jump);
+}
+
+function jump(e) {
+    //Jumping
+    if (inAir == false) {
+        if (e.keyCode == Keyboard.UP) {
+            setTimer(jumping, 20);
+        }   
+    }
+}
+
+//Jumping momentum and making sure player can only jump once
+function jumping() {
+    if (y <= 15) {
+        player.move(0, y);
+        y += 1;
+        inAir = true;
+    } else {
+        stopTimer(jumping);
+        y = -15;
+        inAir = false;
+    }
+}
